@@ -6,7 +6,7 @@ import "./IGoldSilverBronzeNft.sol";
 
 
 /**
-* @title todo
+* @title Treasuries DAO.
 * @dev I decided to use list indexes as nft type identifiers (treasury kinds).
 * @dev Thus, gold, silver, bronze supposed to be as 0, 1, 2.
 * @dev

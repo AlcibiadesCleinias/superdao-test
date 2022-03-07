@@ -15,7 +15,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contr
 * @dev fails silently on idx error.
 */
 contract GoldSilverBronzeNft is Ownable, ERC721 {
-    uint16 _maxTokensPerType = 2;  // todo
+    uint16 _maxTokensPerType = 20;
     uint16 _tokenTypes = 3;
 
     mapping (uint256 => uint256[]) private _tokenTypeToTokenIds;
