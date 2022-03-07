@@ -40,10 +40,12 @@ in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave t
 - a user send withdrawTreasury if he beleives that 2/3 acceptence accomplished (the same logic: it merely cpould be checked vie calls on frontend). On success contract removes approve for the treasury contract.
 
 
-Not standart to Erc721 updates:
+### Not standart to Erc721 updates:
 - `mapping (uint256 => uint256[]) private _tokenTypeToTokenIds` to spot mapping between treasury type and Erc721 tokenId in treasury contract.
 - `tokenTypeToTokenIds` as a helper method
 
+# Notes
 - I beleive there no need in safe math in the current situation, it is only test solution and on sol. 8+ safemath exist.
 - I left docstrings and comment in contracts as well
+- I used Remix IDE, thus repos structure is so one
 
