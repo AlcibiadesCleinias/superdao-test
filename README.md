@@ -1,4 +1,5 @@
-# superdao test
+# superdao-test
+Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao-d8b6b7599cc243a9b27f8b63e0c8e2bb).
 
 # Task Description [ru]
 Нужно написать смарт-контракт для DAO членство которого определяется на основе NFT. 
