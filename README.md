@@ -29,15 +29,21 @@ Thus, in my solution I decide to deligate withdraw approve to Nft approve for th
 3. Approve Nft for contract (thus, you accept created  withdraw)
 4. Withdraw
 
+## Feature
+- When NFT is transfered, withdrawal approve is removed
+- When NFT is approved for someone (potential transfering) not for the treasury contract withdrawal approve is removed
+- Reuse for Erc721 contract code
+- One withdraw request per treasury at one time
+
 ## Test User Flow
-- deploy Nft contract
-- deploy treasury contract with address of Nft contract
+- Deploy Nft contract
+- Deploy treasury contract with address of Nft contract
 - Nft contract owner mints Nft token for a user
 - Nft user approves for all to treasury contract (now contract can change approve)
-- a user send eth to treasury
-- a user creates withdraw request via `createWithdrawRequest` where he proves his ability to create the request by providing special token index
+- A user send eth to treasury
+- A user creates withdraw request via `createWithdrawRequest` where he proves his ability to create the request by providing special token index
 in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave the method coz it is alway could be done with frontend, thus, in contract (aka in chain) you merely prove your values without computations in chain).
-- a user send withdrawTreasury if he beleives that 2/3 acceptence accomplished (the same logic: it merely cpould be checked vie calls on frontend). On success contract removes approve for the treasury contract.
+- A user send withdrawTreasury if he beleives that 2/3 acceptence accomplished (the same logic: it merely cpould be checked vie calls on frontend). On success contract removes approve for the treasury contract.
 
 
 ### Not standart to Erc721 updates:
