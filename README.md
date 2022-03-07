@@ -36,6 +36,9 @@ My solution is without withdraw cancelling since `достаточно напи�
 - Reuse for Erc721 contract code
 - One withdraw request per treasury at one time
 
+## Volnurability Or Missleading
+- Since I delegate withdrawal approve to Erc721 approve but Erc721 approve has its own "right per approve and transfer logic" the vulnerability/missleading exists. This vulnerability may be solved by, e.g. informing that, when you `approveForAll` your token to an address that means that you deligate Nft's rights to (i.e. approveForAll) the address as well. So, by `approveForAll` to an operator means you deligate approve per withdrowal for this address as well.
+
 ## Test User Flow
 - Deploy Nft contract
 - Deploy treasury contract with address of Nft contract
