@@ -22,6 +22,7 @@ Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao
 We have Erc721 contract with a lot of methods and strong logic - what if we can abuse such instrument?
 Thus, in my solution I decide to deligate withdraw approve to Nft approve for the treasury contract 
 (i.e. [contracts/GoldSilverBronzeTreasuriesDao.sol](contracts/GoldSilverBronzeTreasuriesDao.sol)).
+My solution is without withdraw cancelling since `достаточно написать только тот функционал, который описан в данном задании`.
 
 ## TL;DR
 1. Send eth to treasury
