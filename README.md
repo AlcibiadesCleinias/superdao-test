@@ -1,5 +1,6 @@
 # superdao-test
 Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao-d8b6b7599cc243a9b27f8b63e0c8e2bb).
+> aka classic solution
 
 # Task Description [ru]
 Нужно написать смарт-контракт для DAO членство которого определяется на основе NFT. 
@@ -19,41 +20,38 @@ Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao
 Не нужно писать весь функционал DAO в традиционном его понимании, достаточно написать только тот функционал, который описан в данном задании.
 
 # Solution
-We have Erc721 contract with a lot of methods and strong logic - what if we can abuse such instrument?
-Thus, in my solution I decide to deligate withdraw approve to Nft approve for the treasury contract 
+This is a classic solution. Thus, I do not abuse Erc721 approve logic for DAO purpose (for abuse logic check `master` branch).
+I delegate withdrawal approve to special methods in Erc721 (Nft), i.e. `setVoteFor` method.
+The purpose is to be able to reset "vote" on token transferring.
+
 (i.e. [contracts/GoldSilverBronzeTreasuriesDao.sol](contracts/GoldSilverBronzeTreasuriesDao.sol)).
 My solution is without withdraw cancelling since `достаточно написать только тот функционал, который описан в данном задании`.
 
 ## TL;DR
 1. Send eth to treasury
 2. Create withdraw request to address
-3. Approve Nft for contract (thus, you accept created  withdraw)
-4. Withdraw
+3. On your Nft vote for withdraw
+4. Withdraw via treasury contract
 
 ## Feature
-- When NFT is transfered, withdrawal approve is removed
-- When NFT is approved for someone (potential transfering) not for the treasury contract withdrawal approve is removed
-- Reuse for Erc721 contract code
+- When NFT is transferred, vote is removed
 - One withdraw request per treasury at one time
 
-## Volnurability Or Missleading
-- Since I delegate withdrawal approve to Erc721 approve but Erc721 approve has its own "right per approve and transfer logic" the vulnerability/missleading exists. This vulnerability may be solved by, e.g. informing that, when you `approveForAll` your token to an address that means that you deligate Nft's rights to (i.e. approveForAll) the address as well. So, by `approveForAll` to an operator means you deligate approve per withdrowal for this address as well.
-- Nft owner can recall approveForAll for treasury contract, for that reason I force try/catch in `withdrawTreasury` to reset approve block.
-
 ## Test User Flow
-- Deploy Nft contract
-- Deploy treasury contract with address of Nft contract
+- Deploy Nft contract, thus you deploy treasury contract as well, for address check event `LogDaoAddress`
 - Nft contract owner mints Nft token for a user
-- Nft user approves for all to treasury contract (now contract can change approve)
-- A user send eth to treasury
+- A user send eth to treasury contract
 - A user creates withdraw request via `createWithdrawRequest` where he proves his ability to create the request by providing special token index
 in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave the method coz it is alway could be done with frontend, thus, in contract (aka in chain) you merely prove your values without computations in chain).
-- A user send withdrawTreasury if he beleives that 2/3 acceptence accomplished (the same logic: it merely cpould be checked vie calls on frontend). On success contract removes approve for the treasury contract.
+- A user send withdrawTreasury if he believes that 2/3 acceptance accomplished (the same logic: it merely could be checked vie calls on frontend). On success contract removes approve for the treasury contract.
 
 
 ### Not standart to Erc721 updates:
 - `mapping (uint256 => uint256[]) private _tokenTypeToTokenIds` to spot mapping between treasury type and Erc721 tokenId in treasury contract.
 - `tokenTypeToTokenIds` as a helper method
+- mapping to store votes
+- method to set votes
+- override `transferFrom`
 
 # Notes
 - I beleive there no need in safe math in the current situation, it is only test solution and on sol. 8+ safemath exist.

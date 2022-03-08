@@ -6,23 +6,13 @@ import "./IGoldSilverBronzeNft.sol";
 
 
 /**
-* @title Treasuries DAO.
+* @title Treasuries Dao
+* @dev The contract and its logic are designed to be deployed via deploy of
+* @dev appropriate Nft.
+* @dev
 * @dev I decided to use list indexes as nft type identifiers (treasury kinds).
 * @dev Thus, gold, silver, bronze supposed to be as 0, 1, 2.
-* @dev
-* @dev Why I put in Erc721 approve method?
-* @dev Case:
-* @dev 1. Withdraw approved by NFT owner in DAO contrac,
-* @dev 2. Then the NFT owner transfer his NFT to someone.
-* @dev What should we do?
-* @dev I believe that in this case withdrawal approve should be deprecated.
-* @dev The optimal way is to deligate deprecation to Nft specific, where approve removed on Nft transfered.
-* @dev And to approve withdraw you merely need to approve nft for the dao contract below.
-* @dev Via this trick we as well ban NFT owner to approve his NFT for transfer to smbdy
-* @dev when nft owner particiate in dao withdraw process. On success withdraw contract sets nft approve
-* @dev to 0 address.
-* @dev PS. to have the ability to set approve NFT owner have to run once approveForAll
-* @dev to the dao contract.
+* @dev On success withdraw dao reset votes in Nft.
 */
 contract GoldSilverBronzeTreasuriesDao is Ownable {
     IGoldSilverBronzeNft private goldSilverBronzeNftContract;
@@ -55,23 +45,17 @@ contract GoldSilverBronzeTreasuriesDao is Ownable {
         // todo: emit event
     }
 
-    function withdrawTreasury(uint16 treasuryId) external {  // safe?
-        // check approved for all not needed, it should be explained on fronted
-        // and approve for all method should be run ones per contract.
+    function withdrawTreasury(uint16 treasuryId) external {
         address _to = treasuryToWithdrawAddress[treasuryId];
         require(_to != address(0), "withdraw request was not created for treasury");
 
         uint256 treasuryTokens = goldSilverBronzeNftContract.mintedTokensOfType(treasuryId);
-        uint16 approvals = 0;
+        uint256 approvals = 0;
         for (uint256 i = 0; i < treasuryTokens; i++) {
             uint256 tokenId = goldSilverBronzeNftContract.tokenTypeToTokenIds(treasuryId, i);
-            if (goldSilverBronzeNftContract.getApproved(tokenId) == address(this)) {
+            if (goldSilverBronzeNftContract.tokenIdToVoteFor(tokenId) == true) {
+                goldSilverBronzeNftContract.setVoteFor(tokenId, false);
                 approvals += 1;
-                try goldSilverBronzeNftContract.approve(address(0), tokenId) {
-                } catch Error(string memory reason) {
-                    // todo: inform that approve could not reset coz no approveForAll anymore
-                }
-
             }
         }
 
