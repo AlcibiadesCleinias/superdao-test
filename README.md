@@ -1,5 +1,6 @@
 # superdao-test
 Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao-d8b6b7599cc243a9b27f8b63e0c8e2bb).
+> This solution abuse Erc721 logic for classic solution check [classic branch](https://github.com/AlcibiadesCleinias/superdao-test/tree/classic)
 
 # Task Description [ru]
 Нужно написать смарт-контракт для DAO членство которого определяется на основе NFT. 
@@ -31,13 +32,13 @@ My solution is without withdraw cancelling since `достаточно напи�
 4. Withdraw
 
 ## Feature
-- When NFT is transfered, withdrawal approve is removed
-- When NFT is approved for someone (potential transfering) not for the treasury contract withdrawal approve is removed
+- When NFT is transferred, withdrawal approve is removed
+- When NFT is approved for someone (potential transferring) not for the treasury contract withdrawal approve is removed
 - Reuse for Erc721 contract code
 - One withdraw request per treasury at one time
 
-## Volnurability Or Missleading
-- Since I delegate withdrawal approve to Erc721 approve but Erc721 approve has its own "right per approve and transfer logic" the vulnerability/missleading exists. This vulnerability may be solved by, e.g. informing that, when you `approveForAll` your token to an address that means that you deligate Nft's rights to (i.e. approveForAll) the address as well. So, by `approveForAll` to an operator means you deligate approve per withdrowal for this address as well.
+## Vulnerability Or Misleading
+- Since I delegate withdrawal approve to Erc721 approve but Erc721 approve has its own "right per approve and transfer logic" the vulnerability/misleading exists. This vulnerability may be solved by, e.g. informing that, when you `approveForAll` your token to an address that means that you deligate Nft's rights to (i.e. approveForAll) the address as well. So, by `approveForAll` to an operator means you deligate approve per withdrowal for this address as well.
 - Nft owner can recall approveForAll for treasury contract, for that reason I force try/catch in `withdrawTreasury` to reset approve block.
 
 ## Test User Flow
@@ -48,15 +49,15 @@ My solution is without withdraw cancelling since `достаточно напи�
 - A user send eth to treasury
 - A user creates withdraw request via `createWithdrawRequest` where he proves his ability to create the request by providing special token index
 in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave the method coz it is alway could be done with frontend, thus, in contract (aka in chain) you merely prove your values without computations in chain).
-- A user send withdrawTreasury if he beleives that 2/3 acceptence accomplished (the same logic: it merely cpould be checked vie calls on frontend). On success contract removes approve for the treasury contract.
+- A user send withdrawTreasury if he believes that 2/3 acceptance accomplished (the same logic: it merely could be checked vie calls on frontend). On success contract removes approve for the treasury contract.
 
 
-### Not standart to Erc721 updates:
+### Not standard to Erc721 updates:
 - `mapping (uint256 => uint256[]) private _tokenTypeToTokenIds` to spot mapping between treasury type and Erc721 tokenId in treasury contract.
 - `tokenTypeToTokenIds` as a helper method
 
 # Notes
-- I beleive there no need in safe math in the current situation, it is only test solution and on sol. 8+ safemath exist.
+- I believe there no need in safe math in the current situation, it is only test solution and on sol. 8+ safemath exist.
 - I left docstrings and comment in contracts as well
 - I used Remix IDE, thus repos structure is so one
 
