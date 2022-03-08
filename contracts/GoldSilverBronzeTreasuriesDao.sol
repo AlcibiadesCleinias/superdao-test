@@ -67,7 +67,11 @@ contract GoldSilverBronzeTreasuriesDao is Ownable {
             uint256 tokenId = goldSilverBronzeNftContract.tokenTypeToTokenIds(treasuryId, i);
             if (goldSilverBronzeNftContract.getApproved(tokenId) == address(this)) {
                 approvals += 1;
-                goldSilverBronzeNftContract.approve(address(0), tokenId);
+                try goldSilverBronzeNftContract.approve(address(0), tokenId) {
+                } catch Error(string memory reason) {
+                    // todo: inform that approve could not reset coz no approveForAll anymore
+                }
+
             }
         }
 
