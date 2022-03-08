@@ -24,7 +24,6 @@ This is a classic solution. Thus, I do not abuse Erc721 approve logic for DAO pu
 I delegate withdrawal approve to special methods in Erc721 (Nft), i.e. `setVoteFor` method.
 The purpose is to be able to reset "vote" on token transferring.
 
-(i.e. [contracts/GoldSilverBronzeTreasuriesDao.sol](contracts/GoldSilverBronzeTreasuriesDao.sol)).
 My solution is without withdraw cancelling since `достаточно написать только тот функционал, который описан в данном задании`.
 
 ## TL;DR
