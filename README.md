@@ -60,4 +60,5 @@ in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave t
 - I believe there no need in safe math in the current situation, it is only test solution and on sol. 8+ safemath exist.
 - I left docstrings and comment in contracts as well
 - I used Remix IDE, thus repos structure is so one
+- I started to use uint16 instead of uint256 where it is possible for optimisation to show that is is possible ofc, but I think it is not scope of the test and kinda `todo`
 
