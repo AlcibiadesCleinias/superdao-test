@@ -1,6 +1,6 @@
 # superdao-test
 Test hiring task from [SuperDAO](https://www.notion.so/superdao/Jobs-at-Superdao-d8b6b7599cc243a9b27f8b63e0c8e2bb).
-> This solution abuse Erc721 logic for classic solution check [classic branch](https://github.com/AlcibiadesCleinias/superdao-test/tree/classic)
+> This solution abuses Erc721 logic for classic solution check [classic branch](https://github.com/AlcibiadesCleinias/superdao-test/tree/classic)
 
 # Task Description [ru]
 Нужно написать смарт-контракт для DAO членство которого определяется на основе NFT. 
