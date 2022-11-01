@@ -62,7 +62,7 @@ in `_tokenTypeToTokenIds` of Nft contract (for gas optimisation I do not leave t
 - I used Remix IDE, thus repos structure is so one
 - I started to use uint16 instead of uint256 where it is possible for optimisation to show that is is possible ofc, but I think it is not scope of the test and kinda `todo`
 
-# Review
+# Review [ru]
 Для задачи нужно было использовать ERC1155. А для экономии газа голосование должно происходить off-chain. Т.е.  метод withdraw в treasury должен принимать сообщение о выводе и подписи участников. 
 
 Проблемы в коде:
